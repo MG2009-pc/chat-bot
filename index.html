@@ -8,22 +8,22 @@
       margin: 0;
       padding: 0;
       height: 100vh;
+      width: 100vw;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #0a0a0a;
+      background: #0a0a0a; /* اللون اللي انت مستخدمه */
       font-family: Tahoma, Arial, sans-serif;
     }
     .chat-container {
-      background: #383838;
-      width: 100%;
-      max-width: 480px;
-      height: 100vh;
+      background: #383838; /* زي ما عندك */
+      width: 100vw;   /* عرض الشاشة كله */
+      height: 100vh;  /* طول الشاشة كله */
       display: flex;
       flex-direction: column;
     }
     .chat-header {
-      background: #013a85;
+      background: #013a85; /* زي كودك */
       color: white;
       padding: 15px;
       text-align: center;
@@ -31,9 +31,9 @@
     }
     .chat-box {
       flex: 1;
-      overflow-y: auto;
+      overflow-y: auto;   /* عشان السكرول */
       padding: 10px;
-      background: #000000;
+      background: #000000; /* زي كودك */
       display: flex;
       flex-direction: column;
     }
@@ -46,26 +46,26 @@
       font-size: 15px;
     }
     .user {
-      background: #d7f7ff;
+      background: #d7f7ff; /* زي كودك */
       align-self: flex-end;
       border-bottom-right-radius: 0;
     }
     .bot {
-      background: #ffe4e4;
+      background: #ffe4e4; /* زي كودك */
       align-self: flex-start;
       border-bottom-left-radius: 0;
     }
     .input-row {
       display: flex;
       padding: 10px;
-      background: #333333;
+      background: #333333; /* زي كودك */
       border-top: 1px solid #ccc;
     }
     .input-row input {
       flex: 1;
       padding: 10px;
       border-radius: 20px;
-      border: 1px solid #000000;
+      border: 1px solid #000000; /* زي كودك */
       outline: none;
       font-size: 15px;
     }
@@ -74,7 +74,7 @@
       padding: 10px 16px;
       border: none;
       border-radius: 20px;
-      background: #0066ff;
+      background: #0066ff; /* زي كودك */
       color: white;
       font-size: 15px;
       cursor: pointer;
