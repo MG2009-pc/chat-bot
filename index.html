@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>محادثة مع الشات بوت</title>
+  <style>
+    body {
+      background: #0a0a0a;
+      font-family: Tahoma, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .chat-container {
+      background: #383838;
+      width: 400px;
+      max-width: 95vw;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .chat-box {
+      height: 350px;
+      overflow-y: auto;
+      border: 1px solid #008cff;
+      border-radius: 8px;
+      padding: 10px;
+      background: #006eff;
+      margin-bottom: 10px;
+      direction: rtl;
+    }
+    .message {
+      margin: 8px 0;
+      padding: 8px 12px;
+      border-radius: 16px;
+      max-width: 80%;
+      word-break: break-word;
+      font-size: 15px;
+    }
+    .user {
+      background: #e7fff4;
+      align-self: flex-end;
+      text-align: right;
+    }
+    .bot {
+      background: #fff1f1;
+      align-self: flex-start;
+      text-align: left;
+    }
+    .input-row {
+      display: flex;
+      gap: 8px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #0077ff;
+      font-size: 15px;
+    }
+    button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      background: #0d6efd;
+      color: #fff;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+    <center>
+   <h1 style="color: white;">By Mohamed Agamy</h1>
+     </center>
+  <div class="chat-container" style="width: 80%;">
+    <div class="chat-box" id="chatBox"></div>
+    <form class="input-row" id="chatForm">
+      <input type="text" id="userInput" placeholder="اكتب سؤالك هنا..." autocomplete="off" required />
+      <button type="submit">إرسال</button>
+    </form>
+  </div>
+  <script>
+    const chatBox = document.getElementById('chatBox');
+    const chatForm = document.getElementById('chatForm');
+    const userInput = document.getElementById('userInput');
+
+    // ردود افتراضية للشات بوت
+    const botReplies = [
+      "مرحباً! كيف يمكنني مساعدتك؟",
+      "أنا هنا للإجابة على أسئلتك.",
+      "يرجى توضيح سؤالك أكثر.",
+      "سعيد بالتحدث معك!",
+      "لا أفهم سؤالك جيداً، حاول مرة أخرى.",
+      "هل ترغب في معرفة شيء آخر؟",
+      "شكراً لتواصلك معي.",
+      "أنا شات بوت بسيط وأستطيع الرد على أسئلة عامة."
+      ,"هل يمكنني مساعدتك في شيء محدد؟"
+      ,"ما هو موضوع سؤالك؟"
+        ,"أنا هنا لمساعدتك في أي وقت."
+        ,"هل لديك أسئلة أخرى؟"
+        ,"أتمنى لك يوماً سعيداً!"
+        ,"هل تحتاج إلى مساعدة إضافية؟"
+        ,"أنا دائماً هنا للاستماع إليك."
+        ,"هل ترغب في معرفة المزيد عني؟"
+        ,"ما هي اهتماماتك؟"
+        ,"هل تحب التكنولوجيا؟"
+        ,"هل تود معرفة كيف أعمل؟"
+        ,"هل لديك أي اقتراحات لتحسين خدماتي؟"
+        ,"أنا أتعلم كل يوم لأصبح أفضل."
+        ,"هل تود معرفة المزيد عن الذكاء الاصطناعي؟"
+        ,"هل ترغب في تجربة محادثة أخرى؟"
+        ,"أنا هنا لمساعدتك في أي وقت."
+        ,"هل لديك أسئلة أخرى؟"
+        ,"أتمنى لك يوماً سعيداً!"
+        ,"هل تحتاج إلى مساعدة إضافية؟"
+        ,"أنا دائماً هنا للاستماع إليك."
+        ,"هل ترغب في معرفة المزيد عني؟"         
+        ,"ما هي اهتماماتك؟"
+        ,"هل تحب التكنولوجيا؟"
+        ,"هل تود معرفة كيف أعمل؟"
+        ,"هل لديك أي اقتراحات لتحسين خدماتي؟"
+        ,"أنا أتعلم كل يوم لأصبح أفضل."
+        ,"هل تود معرفة المزيد عن الذكاء الاصطناعي؟"
+        ,"هل ترغب في تجربة محادثة أخرى؟"
+    ];
+
+    function addMessage(text, sender) {
+      const msg = document.createElement('div');
+      msg.className = 'message ' + sender;
+      msg.textContent = text;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const question = userInput.value.trim();
+      if (!question) return;
+      addMessage(question, 'user');
+      userInput.value = '';
+
+      // رد عشوائي من البوت بعد نصف ثانية
+      setTimeout(() => {
+        const reply = botReplies[Math.floor(Math.random() * botReplies.length)];
+        addMessage(reply, 'bot');
+      }, 500);
+    });
+  </script>
+</body>
+</html>             
