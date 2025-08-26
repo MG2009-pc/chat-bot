@@ -4,6 +4,42 @@
   <meta charset="UTF-8">
   <title>محادثة مع الشات بوت</title>
   <style>
+    /* ...existing code... */
+
+/* Responsive styles for mobile screens */
+@media (max-width: 600px) {
+  .chat-container {
+    width: 100vw !important;
+    min-width: 0;
+    max-width: 100vw;
+    padding: 8px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .chat-box {
+    height: 60vw;
+    min-height: 200px;
+    font-size: 14px;
+    padding: 6px;
+  }
+  .message {
+    font-size: 14px;
+    padding: 7px 10px;
+    max-width: 95%;
+  }
+  input[type="text"], button {
+    font-size: 14px;
+    padding: 8px;
+  }
+  h1 {
+    font-size: 20px;
+  }
+  body {
+    align-items: flex-start;
+    padding-top: 10vw;
+    height: 100dvh;
+  }
+}
     body {
       background: #0a0a0a;
       font-family: Tahoma, Arial, sans-serif;
@@ -94,45 +130,45 @@
     const chatForm = document.getElementById('chatForm');
     const userInput = document.getElementById('userInput');
 
+   // ...existing code...
     // ردود افتراضية للشات بوت
     const botReplies = [
-      "مرحباً! كيف يمكنني مساعدتك؟",
-      "أنا هنا للإجابة على أسئلتك.",
-      "يرجى توضيح سؤالك أكثر.",
-      "سعيد بالتحدث معك!",
-      "لا أفهم سؤالك جيداً، حاول مرة أخرى.",
-      "هل ترغب في معرفة شيء آخر؟",
-      "شكراً لتواصلك معي.",
-      "أنا شات بوت بسيط وأستطيع الرد على أسئلة عامة."
-      ,"هل يمكنني مساعدتك في شيء محدد؟"
-      ,"ما هو موضوع سؤالك؟"
-        ,"أنا هنا لمساعدتك في أي وقت."
-        ,"هل لديك أسئلة أخرى؟"
-        ,"أتمنى لك يوماً سعيداً!"
-        ,"هل تحتاج إلى مساعدة إضافية؟"
-        ,"أنا دائماً هنا للاستماع إليك."
-        ,"هل ترغب في معرفة المزيد عني؟"
-        ,"ما هي اهتماماتك؟"
-        ,"هل تحب التكنولوجيا؟"
-        ,"هل تود معرفة كيف أعمل؟"
-        ,"هل لديك أي اقتراحات لتحسين خدماتي؟"
-        ,"أنا أتعلم كل يوم لأصبح أفضل."
-        ,"هل تود معرفة المزيد عن الذكاء الاصطناعي؟"
-        ,"هل ترغب في تجربة محادثة أخرى؟"
-        ,"أنا هنا لمساعدتك في أي وقت."
-        ,"هل لديك أسئلة أخرى؟"
-        ,"أتمنى لك يوماً سعيداً!"
-        ,"هل تحتاج إلى مساعدة إضافية؟"
-        ,"أنا دائماً هنا للاستماع إليك."
-        ,"هل ترغب في معرفة المزيد عني؟"         
-        ,"ما هي اهتماماتك؟"
-        ,"هل تحب التكنولوجيا؟"
-        ,"هل تود معرفة كيف أعمل؟"
-        ,"هل لديك أي اقتراحات لتحسين خدماتي؟"
-        ,"أنا أتعلم كل يوم لأصبح أفضل."
-        ,"هل تود معرفة المزيد عن الذكاء الاصطناعي؟"
-        ,"هل ترغب في تجربة محادثة أخرى؟"
+      "عايز ايه ؟",
+      "جايه معاك بايه",
+      "ايه يا كسامك",
+      "متقرفنيش بدل ما نطلع دين امك",
+      "انزلي جوله",
+      "بتتفرج علي سكس",
+      "يسطا متزعلش مني بقا",
+      "اانا هنيكك"
+        ,"عايز ايه يا ابن الاحبه"
+        ,"انتا طلعت ميتيني معاك"
+        ,"كسم اسالتك بنت الزانيه"
+        ,"احا"
+        ,"بقولك تيجي معايا نلعبو في بعض."
+        ,"انا مش فاضي ليك"
+        ,"ما بلاش اسالت ولاد الزانيه دي؟"
+        ,"شات جش بي تي اسر معاك في ايه عشان تجيلي؟"
+        ,"والله؟"
+        ,"امك اسمها ايه؟"
+        ,"عايز ايه يا كس امك؟"
+        ,"انت جاي تهرج معايا؟"
+        ,"انت عاوز ايه منى؟"
+
     ];
+
+    // مصفوفة مؤقتة للردود غير المستخدمة
+    let availableReplies = [...botReplies];
+
+    function getRandomReply() {
+      if (availableReplies.length === 0) {
+        availableReplies = [...botReplies];
+      }
+      const idx = Math.floor(Math.random() * availableReplies.length);
+      const reply = availableReplies[idx];
+      availableReplies.splice(idx, 1); // احذف الرد من المصفوفة المؤقتة
+      return reply;
+    }
 
     function addMessage(text, sender) {
       const msg = document.createElement('div');
@@ -149,9 +185,9 @@
       addMessage(question, 'user');
       userInput.value = '';
 
-      // رد عشوائي من البوت بعد نصف ثانية
+      // رد عشوائي من البوت بعد نصف ثانية بدون تكرار
       setTimeout(() => {
-        const reply = botReplies[Math.floor(Math.random() * botReplies.length)];
+        const reply = getRandomReply();
         addMessage(reply, 'bot');
       }, 500);
     });
